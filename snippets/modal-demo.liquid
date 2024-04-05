@@ -1,0 +1,47 @@
+<div class="page-width page-width--narrow">
+  <div class="mm micromodal-slide" id="modal-1" aria-hidden="true">
+    <div class="mm__overlay" tabindex="-1" data-micromodal-close>
+      <div
+        class="mm__container"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-1-title"
+      >
+        <header class="mm__header">
+          <h2 class="mm__title h5" id="modal-1-title">Micromodal</h2>
+          <button
+            class="mm__close"
+            aria-label="Close modal"
+            data-micromodal-close
+          >
+            {%- render 'icon', icon: 'close' -%}
+          </button>
+        </header>
+        <main class="mm__content" id="modal-1-content">
+          <p>
+            Try hitting the <code>tab</code> key and notice how the focus stays
+            within the modal itself. Also, <code>esc</code> to close modal.
+          </p>
+        </main>
+        <footer class="mm__footer">
+          <button
+            class="button"
+            data-micromodal-close
+            aria-label="Close this dialog window"
+          >
+            Close
+          </button>
+        </footer>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script defer="defer">
+  window.addEventListener('DOMContentLoaded', function () {
+    // MicroModal.init();
+    setTimeout(() => {
+      MicroModal.show('modal-1');
+    }, 5 * 1000);
+  });
+</script>

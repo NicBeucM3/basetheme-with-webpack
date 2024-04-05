@@ -1,0 +1,197 @@
+{%- comment -%}
+
+  Renders UI Demo section
+
+{%- endcomment -%}
+
+<!-- BEGIN sections/ui-demo.liquid -->
+<style>
+  .section-ui-demo {
+    height: 100%;
+  }
+
+  .ui-demo {
+    display: flex;
+    flex-direction: column;
+    row-gap: 8rem;
+  }
+
+  /* @media screen and (min-width: 990px) {
+    .ui-demo {
+      padding: var(--spacing-10);
+      flex-direction: row;
+      justify-content: start;
+      align-items: center;
+      height: 100%;
+    }
+  } */
+
+  .ui-demo__buttons {
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    gap: var(--spacing-06);
+  }
+
+  .ui-demo__icons {
+    display: flex;
+    height: 100%;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    max-width: 400px;
+    align-items: flex-start;
+    column-gap: 2rem;
+    row-gap: 2rem;
+    align-content: flex-start;
+  }
+
+  .ui-demo__icons .icon {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+
+  .ui-demo__inputs {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+  }
+
+  .ui-demo__contrast {
+    height: 20rem;
+    width: 100%;
+    background-color: var(--color-background-contrast);
+  }
+
+  .ui-demo__shadows {
+    display: flex;
+    gap: 40px;
+  }
+
+  .ui-demo__shadow {
+    width: 100px;
+    height: 100px;
+    background-color: var(--color-background-contrast);
+  }
+</style>
+
+<div class="ui-demo page-width--condensed page-padded color-scheme-1">
+  <div class="ui-demo__buttons">
+    <a href="#" class="button">Button - Primary</a>
+    <a href="#" class="button button--secondary">Button - Secondary</a>
+    <a href="#" class="button button--secondary disabled">Button - Secondary</a>
+    <a href="#" class="button button--large">Button - Large</a>
+    <a href="#" class="button button--tertiary">Button - Tertiary</a>
+    <button class="button button--small" disabled>Button - Small</button>
+    <button class="button button--icon">{% render 'icon', icon: 'plus' %}</button>
+    <button class="button" data-micromodal-trigger="demo-modal">Modal demo</button>
+    <div>
+      <p>This is an example of an <a href="#" class="link">inline link</a>.</p>
+    </div>
+    <div>
+      <p>This is an example of an <a href="#" class="link link-with-icon">inline link with an icon {% render 'icon', icon: 'plus' %}</a>.</p>
+    </div>
+  </div>
+  <div class="ui-demo__icons">
+    {%- render 'icon', icon: 'account' -%}
+    {%- render 'icon', icon: 'arrow' -%}
+    {%- render 'icon', icon: 'caret' -%}
+    {%- render 'icon', icon: 'cart-empty' -%}
+    {%- render 'icon', icon: 'checkmark' -%}
+    {%- render 'icon', icon: 'close-small' -%}
+    {%- render 'icon', icon: 'close' -%}
+    {%- render 'icon', icon: 'discount' -%}
+    {%- render 'icon', icon: 'error' -%}
+    {%- render 'icon', icon: 'filter' -%}
+    {%- render 'icon', icon: 'hamburger' -%}
+    {%- render 'icon', icon: 'minus' -%}
+    {%- render 'icon', icon: 'padlock' -%}
+    {%- render 'icon', icon: 'pause' -%}
+    {%- render 'icon', icon: 'play' -%}
+    {%- render 'icon', icon: 'plus' -%}
+    {%- render 'icon', icon: 'remove' -%}
+    {%- render 'icon', icon: 'search' -%}
+    {%- render 'icon', icon: 'share' -%}
+    {%- render 'icon', icon: 'zoom' -%}
+  </div>
+  <div class="ui-demo__inputs">
+    <div class="field">
+      <label class="field__label">Label</label>
+      <input type="text" class="field__input">
+    </div>
+    <div class="field field--alt-light">
+      <label class="field__label">Label</label>
+      <input type="text" class="field__input">
+    </div>
+    <div class="field field--with-error">
+      <label class="field__label">Label</label>
+      <input type="text" class="field__input" placeholder="With placeholder">
+    </div>
+    <div class="field">
+      <label class="form__label field__label">Label</label>
+      <textarea
+        rows="10"
+        class="text-area field__input"
+        placeholder="Placeholder text goes here"
+      >
+      </textarea>
+    </div>
+    <div class="field">
+      <label class="form__label field__label">Label</label>
+      <div class="select">
+        <select
+          id="Select1"
+          class="select__select"
+        >
+          <option>Option 1</option>
+          <option>Option 2</option>
+          <option>Option 3</option>
+        </select>
+        {% render 'icon', icon: 'caret-lg' %}
+      </div>
+    </div>
+    <quantity-input class="quantity">
+      <button class="quantity__button no-js-hidden" name="minus" type="button">
+        <span class="quantity__button-icon">{% render 'icon', icon: 'minus' %}</span>
+      </button>
+      <input
+        class="quantity__input"
+        type="number"
+        name="quantity"
+        id="Quantity-{{ section.id }}"
+        data-min="1"
+        min="1"
+        step="1"
+        value="1"
+      />
+      <button class="quantity__button no-js-hidden" name="plus" type="button">
+        <span class="quantity__button-icon">{% render 'icon', icon: 'plus' %}</span>
+      </button>
+    </quantity-input>
+  </div>
+  <div class="ui-demo__typography">
+    <h1 class="h0">Heading - h0</h1>
+    <h1>Heading - h1</h1>
+    <h2>Heading - h2</h2>
+    <h3>Heading - h3</h3>
+    <h4>Heading - h4</h4>
+    <h5>Heading - h5</h5>
+    <h6>Heading - h6</h6>
+  </div>
+  <div class="ui-demo__contrast"></div>
+  <div class="ui-demo__shadows">
+    <div class="ui-demo__shadow shadow-low"></div>
+    <div class="ui-demo__shadow shadow-mid"></div>
+    <div class="ui-demo__shadow shadow-high"></div>
+  </div>
+</div>
+<!-- END sections/ui-demo.liquid -->
+
+{% schema %}
+{
+  "name": "UI Demo",
+  "class": "section-ui-demo",
+  "settings": []
+}
+
+{% endschema %}

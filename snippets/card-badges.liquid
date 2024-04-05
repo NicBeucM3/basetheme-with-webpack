@@ -1,0 +1,20 @@
+{%-liquid
+  assign badge_type = ''
+  assign badge_text = ''
+
+  if product.available == false
+    assign badge_type = 'sold-out'
+    assign badge_text = 'products.product.sold_out' | t
+  elsif product.compare_at_price > product.price and product.available
+    assign badge_type = 'sale'
+    assign badge_text = 'products.product.on_sale' | t
+  endif
+-%}
+
+{%- if badge_type != '' and badge_text != '' -%}
+  <div class="card__badges">
+    <div class="badge badge--{{ badge_type }}">
+      {{- badge_text -}}
+    </div>
+  </div>
+{%- endif -%}

@@ -1,0 +1,78 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
+      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    {%- endunless -%}
+    {%- unless settings.type_body_font.system? -%}
+      <link
+        rel="preload"
+        as="font"
+        href="{{ settings.type_body_font | font_url }}"
+        type="font/woff2"
+        crossorigin
+      >
+    {%- endunless -%}
+    {%- unless settings.type_header_font.system? -%}
+      <link
+        rel="preload"
+        as="font"
+        href="{{ settings.type_header_font | font_url }}"
+        type="font/woff2"
+        crossorigin
+      >
+    {%- endunless -%}
+
+    {%- liquid
+      render 'head-seo'
+      render 'head-meta'
+      render 'head-config'
+      render 'head-stylesheets'
+      render 'head-scripts'
+    -%}
+
+    <!-- BEGIN content_for_header -->
+    {{ content_for_header }}
+    <!-- END content_for_header -->
+  </head>
+
+  {%- capture template_name -%}
+    {{- template.name -}}{%- if template.suffix -%}-{{- template.suffix -}}{%- endif -%}
+  {%- endcapture -%}
+
+  <body class="template--{{- template_name -}}">
+    {%- render 'a11y-skip-to-content' -%}
+
+    {%- if settings.cart_type == 'drawer' -%}
+      {%- render 'cart-drawer' -%}
+    {%- endif -%}
+
+    {%- render 'overlay-full' -%}
+
+    {% sections 'header-group' %}
+
+    <main
+      id="MainContent"
+      class="content-for-layout focus-none"
+      role="main"
+      tabindex="-1"
+    >
+      <!-- BEGIN sections: content_for_layout -->
+      {{ content_for_layout }}
+      <!-- END sections: content_for_layout -->
+    </main>
+
+    {%- render 'demo-modal' -%}
+
+    {% sections 'footer-group' %}
+
+    {%- render 'a11y-messages' -%}
+
+    {%- render 'body-scripts' -%}
+  </body>
+</html>

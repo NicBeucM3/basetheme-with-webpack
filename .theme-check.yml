@@ -1,0 +1,14 @@
+MatchingTranslations:
+  enabled: false
+TemplateLength:
+  enabled: false
+AssetPreload:
+  enabled: false
+NestedSnippet:
+  enabled: false
+UnusedSnippet:
+  enabled: false
+LiquidTag:
+  enabled: false
+SchemaJsonFormat:
+  enabled: false

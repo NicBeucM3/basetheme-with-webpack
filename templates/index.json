@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "demo": {
+      "type": "demo-ui",
+      "disabled": true,
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "demo"
+  ]
+}

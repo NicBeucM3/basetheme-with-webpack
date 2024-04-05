@@ -1,0 +1,30 @@
+<style type="text/css">
+  .template-404 .title + * {
+    margin-top: var(--spacing-04);
+  }
+
+  .template-404 {
+    display: grid;
+    place-content: center;
+    text-align: center;
+    height: 100%;
+  }
+
+  @media screen and (min-width: 750px) {
+    .template-404 .title + * {
+      margin-top: var(--spacing-06);
+    }
+  }
+</style>
+
+<div class="template-404 page-width page-margin page-padded center">
+  <p class="h1">
+    {{ 'templates.404.subtext' | t }}
+  </p>
+  <h1 class="text-body title">
+    {{ 'templates.404.title' | t }}
+  </h1>
+  <a href="{{ routes.all_products_collection_url }}" class="button">
+    {{ 'general.continue_shopping' | t }}
+  </a>
+</div>

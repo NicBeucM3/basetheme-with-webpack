@@ -1,0 +1,44 @@
+{% capture 'slide' %}
+<swiper-slide>
+  <div style="width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;">
+    <img
+      width="500"
+      height="500"
+      src="{{ 'placeholder-media.svg' | asset_url }}"
+      loading="lazy"
+      style="object-fit: contain; width: 100%; height: 100%;"
+    >
+  </div>
+</swiper-slide>
+{% endcapture %}
+
+<div
+  class="page-width page-width--narrow"
+  style="padding-top: 80px;padding-bottom: 80px"
+>
+  <swiper-container init="false">
+    {% for i in (i..9) %}
+      {{ slide }}
+    {% endfor %}
+  </swiper-container>
+</div>
+
+<script defer="defer">
+  window.addEventListener('DOMContentLoaded', function () {
+    const swiperEl = document.querySelector('swiper-container');
+
+    const swiperParamsToAppend = {
+      breakpoints: {
+        750: {
+          slidesPerView: 2,
+        },
+      },
+    };
+
+    const swiperParams = SWIPER_DEFAULT_PARAMS
+      ? { ...SWIPER_DEFAULT_PARAMS, ...swiperParamsToAppend }
+      : swiperParamsToAppend;
+    Object.assign(swiperEl, swiperParams);
+    swiperEl.initialize();
+  });
+</script>

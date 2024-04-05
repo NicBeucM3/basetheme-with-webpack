@@ -1,0 +1,142 @@
+/* #MicroModal styles */
+
+.mm__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--overlay-standard);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+}
+
+.mm__container {
+  background-color: #fff;
+  width: calc(100vw - 2 * var(--page-margin));
+  max-width: 50rem;
+  max-height: 100vh;
+  border-radius: var(--modal-radius);
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.mm__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-06) var(--spacing-07);
+  border-bottom: 0.1rem solid var(--color-border);
+}
+
+.mm__close {
+  --button-width: 4.4rem;
+  --icon-width: 2.4rem;
+  --adjustment: calc((var(--button-width) - var(--icon-width)) / -2);
+  width: var(--button-width);
+  height: var(--button-width);
+  background: transparent;
+  border: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.mm__close svg {
+  width: var(--icon-width);
+  height: var(--icon-width);
+}
+
+.mm__content {
+  padding: var(--spacing-07);
+  line-height: 1.5;
+  color: var(--color-foreground);
+  text-align: center;
+}
+
+.mm__content > * + * {
+  margin-top: var(--spacing-04)
+}
+
+.mm__footer {
+  padding: var(--spacing-06) var(--spacing-07);
+  border-top: 0.1rem solid var(--color-border);
+  display: flex;
+  gap: var(--spacing-05);
+}
+
+.mm__footer > * {
+  flex: 1 0 auto;
+}
+
+.micromodal-slide {
+  display: none;
+}
+
+.micromodal-slide.is-open {
+  display: block;
+}
+
+.micromodal-slide[aria-hidden="false"] .mm__overlay {
+  animation: mmfadeIn var(--duration-mid) var(--ease-entrance);
+}
+
+.micromodal-slide[aria-hidden="false"] .mm__container {
+  animation: mmslideIn var(--duration-mid) var(--ease-entrance);
+}
+
+.micromodal-slide[aria-hidden="true"] .mm__overlay {
+  animation: mmfadeOut var(--duration-mid) var(--ease-exit);
+}
+
+.micromodal-slide[aria-hidden="true"] .mm__container {
+  animation: mmslideOut var(--duration-mid) var(--ease-exit);
+}
+
+.micromodal-slide .mm__container,
+.micromodal-slide .mm__overlay {
+  will-change: transform;
+}
+
+@keyframes mmfadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes mmfadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes mmslideIn {
+  from {
+    transform: translateY(15%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes mmslideOut {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-10%);
+  }
+}

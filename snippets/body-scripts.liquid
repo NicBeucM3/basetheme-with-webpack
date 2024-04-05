@@ -1,0 +1,46 @@
+<!-- BEGIN body-scripts.liquid -->
+{%- liquid
+  assign isAdmin = false
+  if content_for_header contains 'adminBarInjector' or content_for_header contains 'previewBarInjector'
+    assign isAdmin = true
+  endif
+-%}
+
+<script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
+
+{%- comment -%} Special cart scripts {%- endcomment -%}
+{%- if settings.cart_type == 'drawer' -%}
+  <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
+{%- elsif settings.cart_type == 'notification' -%}
+  <script src="{{ 'cart-notification.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- comment -%} Product page scripts {%- endcomment -%}
+{%- if request.page_type == 'product' -%}
+  <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'variant-selects.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'deferred-media.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'component-slider.js' | asset_url }}" defer="defer"></script>
+  <script id="EnableZoomOnHover-main" src="{{ 'magnify.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{% comment %} Search {% endcomment %}
+<script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
+{%- if settings.predictive_search_enabled -%}
+  <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{% comment %} Localization {% endcomment %}
+{%- if settings.language_selector_enabled or settings.currency_selector_enabled -%}
+  <script src="{{ 'localization-form.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{% comment %} Admin scripts {% endcomment %}
+{%- if isAdmin -%}
+  <script src="https://cdn.markupmode.com/dist/markupmode.min.js" defer="defer"></script>
+{%- endif -%}
+
+{% comment %} m3 Shopify {% endcomment %}
+<script src="https://cdn.m3sites.com/modules/m3shopify/scripts.min.js" defer></script>
+<!-- END body-scripts.liquid -->

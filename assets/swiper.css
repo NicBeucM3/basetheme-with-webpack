@@ -1,0 +1,22 @@
+/* #Swiper styles */
+
+:root {
+  --swiper-bottom-padding: var(--spacing-08);
+  --swiper-navigation-size: 48px;
+  --swiper-theme-color: var(--color-accent-50);
+  --swiper-scrollbar-size: 0.4rem;
+  --swiper-scrollbar-bottom: 0;
+  --swiper-scrollbar-sides-offset: 0%;
+  --swiper-navigation-sides-offset: 0;
+  --swiper-navigation-top-offset: calc(50% - var(--swiper-bottom-padding) / 2);
+}
+
+swiper-container {
+  padding-bottom: var(--swiper-bottom-padding);
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  width: 48px;
+  height: 48px;
+}

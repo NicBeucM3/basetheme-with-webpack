@@ -1,0 +1,41 @@
+<!-- BEGIN head-stylesheets.liquid -->
+{{ 'base.css' | asset_url | stylesheet_tag }}
+{{ 'micromodal.css' | asset_url | stylesheet_tag: preload: true }}
+
+{%- if settings.language_selector_enabled or settings.country_switcher_enabled -%}
+  {{ 'component-localization-form.css' | asset_url | stylesheet_tag: preload: true }}
+{%- endif -%}
+
+{%- if settings.cart_type == "drawer" -%}
+  {{ 'cart.css' | asset_url | stylesheet_tag }}
+  {{ 'component-cart-drawer.css' | asset_url | stylesheet_tag: preload: true }}
+{%- elsif settings.cart_type == 'notification' -%}
+  <link rel="stylesheet" href="{{ 'component-cart-notification.css' | asset_url }}" media="print" onload="this.media='all'">
+  <noscript>{{ 'component-cart-notification.css' | asset_url | stylesheet_tag }}</noscript>
+{%- endif -%}
+
+{%- case request.page_type -%}
+  {%- when 'product' -%}
+    {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+    {{ 'component-slider.css' | asset_url | stylesheet_tag }}
+    {{ 'component-deferred-media.css' | asset_url | stylesheet_tag }}
+    {{ 'component-badge.css' | asset_url | stylesheet_tag }}
+  {%- when 'collection' -%}
+    {{ 'template-collection.css' | asset_url | stylesheet_tag }}
+    {{ 'component-card.css' | asset_url | stylesheet_tag }}
+    {{ 'component-badge.css' | asset_url | stylesheet_tag }}
+  {%- when 'password' -%}
+    {{ 'section-password.css' | asset_url | stylesheet_tag }}
+    {{ 'component-modal.css' | asset_url | stylesheet_tag }}
+{%- endcase -%}
+
+<link rel="stylesheet" href="{{ 'component-search.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-menu-drawer.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'component-search.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-menu-drawer.css' | asset_url | stylesheet_tag }}</noscript>
+
+{%- if settings.predictive_search_enabled -%}
+  <link rel="stylesheet" href="{{ 'component-predictive-search.css' | asset_url }}" media="print" onload="this.media='all'">
+  <noscript>{{ 'component-predictive-search.css' | asset_url | stylesheet_tag }}</noscript>
+{%- endif -%}
+<!-- END head-stylesheets.liquid -->

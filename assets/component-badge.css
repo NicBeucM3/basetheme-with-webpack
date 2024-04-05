@@ -1,0 +1,12 @@
+.badge {
+  display: inline-block;
+  background-color: var(--color-background-contrast);
+  padding: var(--spacing-01) var(--spacing-03);
+  font-size: var(--font-size-body-sm);
+  border-radius: .4rem;
+  letter-spacing: 0;
+}
+
+.badge--sale {
+  background-color: var(--color-ui-sale);
+}

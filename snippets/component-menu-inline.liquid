@@ -1,0 +1,66 @@
+{% comment %}
+  Renders inline menu
+
+  Accepts:
+  - menu: {Array} Link list
+
+  Usage:
+  {% render 'menu-inline', menu_links: menu %}
+{% endcomment %}
+
+<nav class="header__inline-menu">
+  <ul class="list-menu list-menu--inline" role="list">
+    {%- for link in menu.links -%}
+      <li>
+        {%- if link.links != blank -%}
+          <header-menu>
+            <details id="Details-HeaderMenu-{{ forloop.index }}">
+              <summary class="header__menu-item list-menu__item focus-inset">
+                <span {%- if link.child_active %} class="header__active-menu-item"{% endif %}>{{ link.title | escape }}</span>
+                {%- comment -%}
+                  <!- Hidden because open on hover is enabled -->
+                  {% render 'icon', icon: 'caret' %}
+                {%- endcomment -%}
+              </summary>
+              <div id="HeaderMenu-MenuList-{{ forloop.index }}" class="header__submenu color-scheme-1 motion-reduce list-menu--disclosure">
+                <div class="header__submenu-inner page-width">
+                  <ul class="list-menu" role="list" tabindex="-1">
+                    {%- for childlink in link.links -%}
+                      <li>
+                        {%- if childlink.links == blank -%}
+                          <a href="{{ childlink.url }}" class="header__menu-item list-menu__item focus-inset caption-large{% if childlink.current %} list-menu__item--active{% endif %}"{% if childlink.current %} aria-current="page"{% endif %}>
+                            {{ childlink.title | escape }}
+                          </a>
+                        {%- else -%}
+                          <details id="Details-HeaderSubMenu-{{ forloop.index }}">
+                            <summary class="header__menu-item list-menu__item focus-inset caption-large">
+                              <span>{{ childlink.title | escape }}</span>
+                              {% render 'icon', icon: 'caret' %}
+                            </summary>
+                            <ul id="HeaderMenu-SubMenuList-{{ forloop.index }}" class="header__submenu list-menu motion-reduce">
+                              {%- for grandchildlink in childlink.links -%}
+                                <li>
+                                  <a href="{{ grandchildlink.url }}" class="header__menu-item list-menu__item focus-inset caption-large{% if grandchildlink.current %} list-menu__item--active{% endif %}"{% if grandchildlink.current %} aria-current="page"{% endif %}>
+                                    {{ grandchildlink.title | escape }}
+                                  </a>
+                                </li>
+                              {%- endfor -%}
+                            </ul>
+                          </details>
+                        {%- endif -%}
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                </div>
+              </div>
+            </details>
+          </header-menu>
+        {%- else -%}
+          <a href="{{ link.url }}" class="header__menu-item list-menu__item focus-inset"{% if link.current %} aria-current="page"{% endif %}>
+            <span {%- if link.current %} class="header__active-menu-item"{% endif %}>{{ link.title | escape }}</span>
+          </a>
+        {%- endif -%}
+      </li>
+    {%- endfor -%}
+  </ul>
+</nav>

@@ -1,0 +1,142 @@
+{%- liquid
+  assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
+  assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
+  assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+%}
+
+<!-- BEGIN head-config.liquid -->
+{%- style -%}
+{{ settings.type_body_font | font_face: font_display: 'swap' }}
+{{ body_font_bold | font_face: font_display: 'swap' }}
+{{ body_font_italic | font_face: font_display: 'swap' }}
+{{ body_font_bold_italic | font_face: font_display: 'swap' }}
+{{ settings.type_header_font | font_face: font_display: 'swap' }}
+
+{% for scheme in settings.color_schemes -%}
+  {% assign scheme_classes = scheme_classes | append: ', .color-' | append: scheme.id %}
+  {% if forloop.index == 1 -%}
+    :root,
+  {%- endif %}
+  .color-{{ scheme.id }} {
+    --color-background: {{ scheme.settings.background | color_to_hsl }};
+  {% if scheme.settings.background_gradient != empty %}
+    --gradient-background: {{ scheme.settings.background_gradient }};
+  {% else %}
+    --gradient-background: {{ scheme.settings.background | color_to_hsl }};
+  {% endif %}
+
+  {% liquid
+    assign background_color = scheme.settings.background
+    assign background_color_brightness = background_color | color_brightness
+    if background_color_brightness <= 25
+      assign background_color_contrast = background_color | color_lighten: 10
+    elsif background_color_brightness <= 65
+      assign background_color_contrast = background_color | color_lighten: 10
+    else
+      assign background_color_contrast = background_color | color_darken: 10
+    endif
+
+    assign button_color = scheme.settings.button
+    assign button_color_brightness = button_color | color_brightness
+    if button_color_brightness <= 25
+      assign button_color_hover = button_color | color_mix: background_color, 90 | color_lighten: 10
+      assign button_color_disabled = button_color | color_mix: background_color, 40 | color_desaturate: 10
+    elsif button_color_brightness <= 65
+      assign button_color_hover = button_color | color_mix: background_color, 90 | color_lighten: 5
+      assign button_color_disabled = button_color | color_mix: background_color, 50 | color_desaturate: 10
+    else
+      assign button_color_hover = button_color | color_mix: background_color, 90 | color_darken: 10
+      assign button_color_disabled = button_color | color_mix: background_color, 60 | color_desaturate: 20
+    endif
+
+    assign text_color = scheme.settings.text
+    assign text_color_brightness = text_color | color_brightness
+    if text_color_brightness <= 25
+      assign text_color_contrast = text_color | color_mix: background_color, 90 | color_lighten: 30
+      assign border_color = text_color | color_mix: background_color, 90 | color_lighten: 70
+    elsif text_color_brightness <= 65
+      assign text_color_contrast = text_color | color_mix: background_color, 90 | color_lighten: 10
+      assign border_color = text_color | color_mix: background_color, 90 | color_lighten: 25
+    else
+      assign text_color_contrast = text_color | color_mix: background_color, 90 | color_darken: 10
+      assign border_color = text_color | color_mix: background_color, 90 | color_darken: 30
+    endif
+  %}
+
+  --color-foreground: {{ scheme.settings.text | color_to_hsl }};
+  --color-border: {{ border_color | color_to_hsl }};
+  --color-background-contrast: {{ background_color_contrast | color_to_hsl }};
+  --color-button: {{ scheme.settings.button | color_to_hsl }};
+  --color-button-hover: {{ button_color_hover | color_to_hsl }};
+  --color-button-disabled: {{ button_color_disabled | color_to_hsl }};
+  --color-button-text: {{ scheme.settings.button_label | color_to_hsl }};
+  --color-secondary-button: {{ background_color | color_to_hsl }};
+  --color-secondary-button-hover: {{ scheme.settings.button | color_to_hsl }};
+  --color-secondary-button-text: {{ scheme.settings.secondary_button_label | color_to_hsl }};
+  --color-secondary-button-text-hover: {{ scheme.settings.button_label | color_to_hsl }};
+  --color-link: {{ scheme.settings.secondary_button_label | color_to_hsl }};
+  --color-link-hover: {{ text_color_contrast | color_to_hsl }}
+}
+{% endfor %}
+
+{{ scheme_classes | prepend: 'body' }} {
+  color: var(--color-foreground);
+  background-color: var(--color-background);
+}
+
+:root {
+  --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+  --font-body-style: {{ settings.type_body_font.style }};
+  --font-body-weight: {{ settings.type_body_font.weight }};
+  --font-body-weight-bold: {{ settings.type_body_font.weight | plus: 300 | at_most: 1000 }};
+  --font-heading-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
+
+  {%-liquid
+    assign page_width = settings.page_width | divided_by: 10
+    assign page_width_condensed = page_width | divided_by: 1.5 | round
+    assign page_width_narrow = page_width | divided_by: 2
+  -%}
+
+  --page-width: {{ page_width | append: 'rem' }};
+  --page-width-condensed: {{ page_width_condensed | append: 'rem' }};
+  --page-width-narrow: {{ page_width_narrow | append: 'rem' }};
+}
+{%- endstyle -%}
+
+<script>
+  // Detect JS
+  document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+
+  // Global shop values
+  window.shopUrl = '{{ request.origin }}';
+  window.routes = {
+    cart_add_url: '{{ routes.cart_add_url }}',
+    cart_change_url: '{{ routes.cart_change_url }}',
+    cart_update_url: '{{ routes.cart_update_url }}',
+    cart_url: '{{ routes.cart_url }}',
+    predictive_search_url: '{{ routes.predictive_search_url }}'
+  };
+
+  window.cartStrings = {
+    error: `{{ 'sections.cart.cart_error' | t }}`,
+    quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}`
+  }
+
+  window.variantStrings = {
+    addToCart: `{{ 'products.product.add_to_cart' | t }}`,
+    soldOut: `{{ 'products.product.sold_out' | t }}`,
+    unavailable: `{{ 'products.product.unavailable' | t }}`,
+    unavailable_with_option: `{{ 'products.product.value_unavailable' | t: option_value: '[value]' }}`,
+  }
+
+  window.accessibilityStrings = {
+    imageAvailable: `{{ 'products.product.media.image_available' | t: index: '[index]' }}`,
+    shareSuccess: `{{ 'general.share.success_message' | t }}`,
+    pauseSlideshow: `{{ 'sections.slideshow.pause_slideshow' | t }}`,
+    playSlideshow: `{{ 'sections.slideshow.play_slideshow' | t }}`,
+  }
+
+  window.storefrontAccessToken = '3e2aca455c3540c3f3b73df0cc4906e4';
+  window.graphqlUrl = 'https://m3-base-theme.myshopify.com/api/2024-04/graphql.json';
+</script>
+<!-- END head-config.liquid -->

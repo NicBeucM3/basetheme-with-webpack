@@ -1,0 +1,135 @@
+{%- comment -%}
+  Renders Announcement Bar section
+
+  Settings:
+    - slide_duration: range
+    - dismiss_enabled: checkbox
+{%- endcomment -%}
+
+{%- liquid
+  assign slide_duration = section.settings.slide_duration | times: 1000
+  assign dismiss_enabled = section.settings.dismiss_enabled
+-%}
+
+<!-- BEGIN sections/announcement-bar.liquid -->
+
+{{ 'section-announcement-bar.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'announcement-bar.js' | asset_url }}" defer="defer"></script>
+
+<announcement-bar
+  data-announcement-duration="{{ slide_duration }}"
+  data-dismiss-enabled="{{ dismiss_enabled }}"
+  data-section-id="{{ section.id }}"
+  {% if dismiss_enabled %}
+    class="hidden"
+  {% endif %}
+>
+  <div class="announcement-bar color-scheme-3{% if dismiss_enabled %} has-dismiss{% endif %}">
+    <div class="announcement-bar__inner">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign tag = ''
+          if block.settings.link != blank
+            assign tag = 'a'
+          else
+            assign tag = 'p'
+          endif
+        -%}
+        <{{ tag }}
+          {% if block.settings.link != blank %}
+            href="{{ block.settings.link }}"
+          {% endif %}
+          class="announcement-bar__announcement{% if tag == 'a' %} link-with-icon animated-arrow{% endif %}{% if forloop.first %} visible{% endif %} page-width"
+          id="announcement-{{ block.id }}"
+          aria-hidden="{% if forloop.first %}false{% else %}true{% endif %}"
+          data-announcement
+          {{ block.shopify_attributes }}
+        >
+          {{ block.settings.text }}
+          {%- if tag == 'a' -%}
+            {%- render 'icon', icon: 'arrow' -%}
+          {%- endif -%}
+        </{{ tag }}>
+      {%- endfor -%}
+    </div>
+    {% if dismiss_enabled %}
+      <button
+        class="announcement-bar__dismiss focus-inset"
+        aria-label="Dismiss announcement"
+        data-announcement-dismiss
+      >
+        {%- render 'icon', icon: 'close' -%}
+      </button>
+    {% endif %}
+  </div>
+</announcement-bar>
+<!-- END sections/announcement-bar.liquid -->
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "class": "section-announcement-bar",
+  "settings": [
+    {
+      "type": "range",
+      "id": "slide_duration",
+      "label": "Announcement slide duration",
+      "unit": "s",
+      "min": 5,
+      "max": 20,
+      "step": 1,
+      "default": 10,
+      "info": "Select how long you'd like each announcement to show for."
+    },
+    {
+      "type": "checkbox",
+      "id": "dismiss_enabled",
+      "label": "Enable dismiss",
+      "default": true
+    }
+  ],
+  "max_blocks": 5,
+  "blocks": [
+    {
+      "name": "Announcement",
+      "type": "announcement",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Announcement text"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Announcement link (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement Bar",
+      "blocks": [
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "Announcement with no link"
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "Announcement with link",
+            "link": "https://google.com"
+          }
+        }
+      ]
+    }
+  ],
+  "limit": 1,
+  "enabled_on": {
+    "groups": ["header"]
+  }
+}
+{% endschema %}

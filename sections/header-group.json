@@ -1,0 +1,46 @@
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "a12c2ff0-217b-45e3-9587-e8f8792a2d53": {
+      "type": "announcement-bar",
+      "blocks": {
+        "9448a054-776a-475a-9227-9fc5ff9b679f": {
+          "type": "announcement",
+          "settings": {
+            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            "link": "shopify:\/\/collections"
+          }
+        },
+        "4616637b-d99b-4f08-bd11-d6aa559a5c74": {
+          "type": "announcement",
+          "settings": {
+            "text": "Labore et dolore magna aliqua.",
+            "link": "shopify:\/\/collections"
+          }
+        }
+      },
+      "block_order": [
+        "9448a054-776a-475a-9227-9fc5ff9b679f",
+        "4616637b-d99b-4f08-bd11-d6aa559a5c74"
+      ],
+      "settings": {
+        "slide_duration": 10,
+        "dismiss_enabled": true
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "menu": "main-menu",
+        "layout": "layout-left",
+        "sticky_header_type": "always",
+        "show_search": true
+      }
+    }
+  },
+  "order": [
+    "a12c2ff0-217b-45e3-9587-e8f8792a2d53",
+    "header"
+  ]
+}
